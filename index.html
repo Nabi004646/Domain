@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nepocore — domain for sale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0d12;
+    --bg-raised:#10141b;
+    --panel:#12161e;
+    --border:#212832;
+    --text:#e7eaee;
+    --text-dim:#8b95a5;
+    --text-faint:#586173;
+    --accent:#ff9f43;
+    --accent-dim:#7a5a30;
+    --accent-2:#4fd1c5;
+    --accent-2-dim:#2b5551;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+  :root:not([data-theme="light"]){ }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#0a0d12; --bg-raised:#10141b; --panel:#12161e; --border:#212832;
+      --text:#e7eaee; --text-dim:#8b95a5; --text-faint:#586173;
+    }
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--accent-dim); color:#fff; }
+
+  a{ color:inherit; }
+  button{ font-family:inherit; cursor:pointer; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  @media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+  /* ---------- Nav ---------- */
+  nav.top{
+    position:sticky; top:0; z-index:40;
+    background:rgba(10,13,18,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav.top .inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+  }
+  .brand{
+    font-family:var(--mono); font-weight:600; font-size:15px;
+    display:flex; align-items:center; gap:10px; letter-spacing:0.2px;
+  }
+  .brand .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--accent-2);
+    box-shadow:0 0 0 3px var(--accent-2-dim);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%{ opacity:0.55; transform:scale(0.8); }
+  }
+  .badge{
+    font-family:var(--mono); font-size:11px; font-weight:600;
+    color:var(--accent);
+    border:1px solid var(--accent-dim);
+    background:rgba(255,159,67,0.07);
+    padding:5px 10px; border-radius:3px;
+    letter-spacing:0.4px;
+  }
+  .nav-cta{
+    font-family:var(--mono); font-size:13px; font-weight:500;
+    color:var(--text); background:var(--bg-raised);
+    border:1px solid var(--border); padding:9px 16px; border-radius:4px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .nav-cta:hover{ border-color:var(--accent-dim); color:var(--accent); }
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    position:relative;
+    padding:108px 0 96px;
+    border-bottom:1px solid var(--border);
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;
+    position:relative; z-index:2;
+  }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+
+  .kicker{
+    font-family:var(--mono); font-size:13px; color:var(--text-faint);
+    display:flex; align-items:center; gap:8px; margin-bottom:22px;
+  }
+  .kicker::before{ content:"›"; color:var(--accent-2); font-weight:700; }
+
+  h1.domain{
+    font-family:var(--mono); font-weight:700;
+    font-size:clamp(40px, 6.2vw, 74px);
+    line-height:1.02; letter-spacing:-1px;
+    color:var(--text); word-break:break-word;
+  }
+  h1.domain .ext{ color:var(--text-faint); font-weight:500; }
+  .cursor{
+    display:inline-block; width:0.5ch; background:var(--accent);
+    margin-left:4px; animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero-sub{
+    margin-top:24px; max-width:46ch;
+    color:var(--text-dim); font-size:17px;
+  }
+
+  .hero-actions{ margin-top:36px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--mono); font-size:14px; font-weight:600;
+    padding:14px 24px; border-radius:5px; border:1px solid transparent;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{
+    background:var(--accent); color:#161006;
+  }
+  .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 8px 24px -8px rgba(255,159,67,0.55); }
+  .btn-ghost{
+    background:transparent; border-color:var(--border); color:var(--text);
+  }
+  .btn-ghost:hover{ border-color:var(--accent-2-dim); color:var(--accent-2); }
+
+  .hero-meta{
+    margin-top:44px; display:flex; gap:28px; flex-wrap:wrap;
+  }
+  .hero-meta div{ font-family:var(--mono); }
+  .hero-meta .label{ font-size:11px; color:var(--text-faint); letter-spacing:0.4px; }
+  .hero-meta .value{ font-size:14px; color:var(--text); margin-top:4px; }
+
+  /* radar visual */
+  .radar-wrap{
+    position:relative; aspect-ratio:1/1; max-width:420px; margin:0 auto;
+  }
+  canvas#radar{ width:100%; height:100%; display:block; }
+
+  /* background scan lines, subtle */
+  .bg-scan{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      repeating-linear-gradient(
+        transparent 0px, transparent 27px, rgba(79,209,197,0.035) 28px
+      );
+    mask-image:radial-gradient(ellipse 80% 60% at 70% 30%, black, transparent 75%);
+  }
+
+  /* ---------- Sections ---------- */
+  section{ padding:88px 0; border-bottom:1px solid var(--border); }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; margin-bottom:48px; flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-size:clamp(24px,3vw,32px); font-weight:600; letter-spacing:-0.3px;
+  }
+  .section-head p{ color:var(--text-dim); font-size:14px; max-width:34ch; }
+  .idx{ font-family:var(--mono); font-size:12px; color:var(--text-faint); }
+
+  .reasons{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--border); border:1px solid var(--border); border-radius:8px; overflow:hidden;
+  }
+  @media (max-width:800px){ .reasons{ grid-template-columns:1fr; } }
+  .reason{ background:var(--panel); padding:32px 28px; }
+  .reason .rk{ font-family:var(--mono); font-size:12px; color:var(--accent-2); }
+  .reason h3{ margin-top:14px; font-size:18px; font-weight:600; }
+  .reason p{ margin-top:10px; color:var(--text-dim); font-size:14.5px; }
+
+  /* fit panel */
+  .fit-panel{
+    background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:36px; font-family:var(--mono); font-size:14px;
+    color:var(--text-dim); overflow-x:auto;
+  }
+  .fit-panel .ln{ display:flex; gap:16px; padding:5px 0; white-space:nowrap; }
+  .fit-panel .ln .n{ color:var(--text-faint); width:20px; flex:none; }
+  .fit-panel .k{ color:var(--accent-2); }
+  .fit-panel .v{ color:var(--text); }
+
+  /* contact */
+  section.contact{ border-bottom:none; padding-bottom:120px; }
+  .contact-panel{
+    background:linear-gradient(180deg, var(--bg-raised), var(--panel));
+    border:1px solid var(--border); border-radius:10px;
+    padding:56px 48px; text-align:left;
+    display:grid; grid-template-columns:1.2fr 1fr; gap:40px; align-items:center;
+  }
+  @media (max-width:800px){ .contact-panel{ grid-template-columns:1fr; padding:40px 26px; } }
+  .contact-panel h2{ font-size:28px; font-weight:600; letter-spacing:-0.3px; }
+  .contact-panel p{ margin-top:14px; color:var(--text-dim); font-size:15px; max-width:40ch; }
+
+  footer{ padding:36px 0; }
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+    flex-wrap:wrap; gap:12px;
+  }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(6,8,11,0.72);
+    backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center;
+    z-index:100; padding:20px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal{
+    background:var(--bg-raised); border:1px solid var(--border); border-radius:10px;
+    max-width:440px; width:100%; padding:32px; position:relative;
+    animation:modal-in .18s ease;
+  }
+  @keyframes modal-in{ from{ opacity:0; transform:translateY(8px) scale(0.98); } to{ opacity:1; transform:none; } }
+  .modal-close{
+    position:absolute; top:16px; right:16px;
+    background:transparent; border:none; color:var(--text-faint);
+    font-size:18px; line-height:1; padding:6px;
+  }
+  .modal-close:hover{ color:var(--text); }
+  .modal h3{ font-size:19px; font-weight:600; }
+  .modal p.sub{ color:var(--text-dim); font-size:13.5px; margin-top:8px; }
+
+  .contact-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; margin-top:22px; padding:13px 14px;
+    background:var(--panel); border:1px solid var(--border); border-radius:6px;
+  }
+  .contact-row .cl{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .contact-row .cl .lbl{ font-family:var(--mono); font-size:10.5px; color:var(--text-faint); letter-spacing:0.4px; }
+  .contact-row .cl .val{ font-size:14px; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .copy-btn{
+    font-family:var(--mono); font-size:11.5px; font-weight:600;
+    background:transparent; border:1px solid var(--border); color:var(--text-dim);
+    padding:7px 10px; border-radius:4px; flex:none;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .copy-btn:hover{ border-color:var(--accent-2-dim); color:var(--accent-2); }
+  .copy-btn.copied{ color:var(--accent-2); border-color:var(--accent-2-dim); }
+
+  .modal-cta{
+    display:block; text-align:center; margin-top:22px;
+    padding:13px; border-radius:6px; background:var(--accent);
+    color:#161006; font-family:var(--mono); font-weight:600; font-size:14px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap inner">
+    <div class="brand"><span class="dot"></span>nepocore</div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <span class="badge">DOMAIN FOR SALE</span>
+      <button class="nav-cta" onclick="openModal()">Contact</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="bg-scan"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="kicker">premium domain listing</div>
+      <h1 class="domain">nepocore<span class="ext">.com</span><span class="cursor">&nbsp;</span></h1>
+      <p class="hero-sub">
+        A short, brandable name built for a security company, research team, or platform.
+        Clean, memorable, and unclaimed everywhere it matters — this is the only listing for it.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="openModal()">Make an offer</button>
+        <a class="btn btn-ghost" href="#why">Why this name</a>
+      </div>
+      <div class="hero-meta">
+        <div><div class="label">STATUS</div><div class="value">Available</div></div>
+        <div><div class="label">TRANSFER</div><div class="value">Same-day, via registrar</div></div>
+        <div><div class="label">USE CASE</div><div class="value">Cybersecurity / infosec brand</div></div>
+      </div>
+    </div>
+    <div class="radar-wrap">
+      <canvas id="radar" width="420" height="420"></canvas>
+    </div>
+  </div>
+</header>
+
+<section id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Why this name works</h2>
+        <p>Three things a security brand actually needs from its domain.</p>
+      </div>
+      <span class="idx">01 / listing</span>
+    </div>
+    <div class="reasons">
+      <div class="reason">
+        <div class="rk">SHORT</div>
+        <h3>8 letters, one word</h3>
+        <p>Fits on a badge, a terminal prompt, or a pitch deck header without wrapping or shortening.</p>
+      </div>
+      <div class="reason">
+        <div class="rk">NEUTRAL</div>
+        <h3>No borrowed meaning</h3>
+        <p>Doesn't lean on "cyber," "sec," or "shield" — so it won't sound identical to your competitor's.</p>
+      </div>
+      <div class="reason">
+        <div class="rk">FLEXIBLE</div>
+        <h3>Works past one product</h3>
+        <p>Reads fine as a consultancy, a SaaS platform, a research lab, or a personal brand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Listing details</h2>
+        <p>What's included, plainly stated.</p>
+      </div>
+      <span class="idx">02 / details</span>
+    </div>
+    <div class="fit-panel">
+      <div class="ln"><span class="n">1</span><span class="k">domain</span>&nbsp;<span class="v">nepocore.com</span></div>
+      <div class="ln"><span class="n">2</span><span class="k">status</span>&nbsp;&nbsp;<span class="v">available, not in use</span></div>
+      <div class="ln"><span class="n">3</span><span class="k">price</span>&nbsp;&nbsp;&nbsp;<span class="v">by offer — open to reasonable proposals</span></div>
+      <div class="ln"><span class="n">4</span><span class="k">transfer</span>&nbsp;<span class="v">handled directly with the registrar, buyer covers transfer fee</span></div>
+      <div class="ln"><span class="n">5</span><span class="k">contact</span>&nbsp;<span class="v">see below — response within a day or two</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="wrap">
+    <div class="contact-panel">
+      <div>
+        <h2>Interested in nepocore.com?</h2>
+        <p>Send an offer or a question directly — contact details are below, no account or form needed.</p>
+      </div>
+      <div>
+        <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="openModal()">View contact details</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>nepocore.com — listed for sale</span>
+    <span>not affiliated with any registrar or marketplace</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="overlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h3>Contact about nepocore.com</h3>
+    <p class="sub">Reach out directly with your offer or question.</p>
+
+    <div class="contact-row">
+      <div class="cl">
+        <span class="lbl">EMAIL</span>
+        <span class="val" id="c-email">nabinkunwar992@gmail.com</span>
+      </div>
+      <button class="copy-btn" onclick="copyVal('c-email', this)">Copy</button>
+    </div>
+
+    <div class="contact-row">
+      <div class="cl">
+        <span class="lbl">TELEGRAM</span>
+        <span class="val" id="c-telegram">nabinkunwar992</span>
+      </div>
+      <button class="copy-btn" onclick="copyVal('c-telegram', this)">Copy</button>
+    </div>
+
+    <div class="contact-row">
+      <div class="cl">
+        <span class="lbl">WHATSAPP</span>
+        <span class="val" id="c-whatsapp">+977 9828426029</span>
+      </div>
+      <button class="copy-btn" onclick="copyVal('c-whatsapp', this)">Copy</button>
+    </div>
+
+    <a class="modal-cta" id="mailto-cta" href="nabinkunwar992@gmail.com">Email about this domain</a>
+  </div>
+</div>
+
+<script>
+  /* ================================================================
+     EDIT THESE THREE VALUES WITH YOUR REAL CONTACT DETAILS
+     ================================================================ */
+  const CONTACT = {
+    email: "your-email@example.com",
+    telegram: "@your_username",
+    whatsapp: "+977 98X XXX XXXX"
+  };
+  /* ================================================================ */
+
+  document.getElementById('c-email').textContent = CONTACT.email;
+  document.getElementById('c-telegram').textContent = CONTACT.telegram;
+  document.getElementById('c-whatsapp').textContent = CONTACT.whatsapp;
+  document.getElementById('mailto-cta').href =
+    "mailto:" + CONTACT.email + "?subject=" + encodeURIComponent("Offer for nepocore.com") +
+    "&body=" + encodeURIComponent("Hi,\n\nI'm interested in nepocore.com. My offer is: \n\n");
+
+  function openModal(){
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+  function copyVal(id, btn){
+    const text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1400);
+    }).catch(() => {});
+  }
+
+  /* ---------- Radar / scan hero visual ---------- */
+  (function(){
+    const canvas = document.getElementById('radar');
+    const ctx = canvas.getContext('2d');
+    let w, h, dpr;
+
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = canvas.getBoundingClientRect();
+      w = rect.width; h = rect.height;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // fixed node positions (deterministic, not random each frame)
+    const cx = () => w/2, cy = () => h/2;
+    const nodeSeeds = [
+      [0.5,0.12],[0.82,0.28],[0.88,0.62],[0.62,0.86],
+      [0.28,0.85],[0.10,0.58],[0.16,0.26],[0.5,0.5],
+      [0.38,0.36],[0.66,0.4],[0.58,0.64],[0.36,0.62]
+    ];
+    const links = [[7,0],[7,1],[7,2],[7,3],[7,4],[7,5],[7,6],[8,0],[9,1],[10,2],[11,4],[8,6],[9,2]];
+
+    let angle = 0;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      const R = Math.min(w,h) * 0.46;
+
+      // rings
+      ctx.strokeStyle = 'rgba(79,209,197,0.14)';
+      ctx.lineWidth = 1;
+      for(let i=1;i<=3;i++){
+        ctx.beginPath();
+        ctx.arc(cx(), cy(), (R/3)*i, 0, Math.PI*2);
+        ctx.stroke();
+      }
+
+      // links
+      const pts = nodeSeeds.map(([nx,ny]) => ({x: nx*w, y: ny*h}));
+      ctx.lineWidth = 1;
+      links.forEach(([a,b]) => {
+        ctx.strokeStyle = 'rgba(139,149,165,0.25)';
+        ctx.beginPath();
+        ctx.moveTo(pts[a].x, pts[a].y);
+        ctx.lineTo(pts[b].x, pts[b].y);
+        ctx.stroke();
+      });
+
+      // sweep gradient
+      const grad = ctx.createConicGradient ? ctx.createConicGradient(angle, cx(), cy()) : null;
+      if(grad){
+        grad.addColorStop(0, 'rgba(255,159,67,0.32)');
+        grad.addColorStop(0.06, 'rgba(255,159,67,0.10)');
+        grad.addColorStop(0.14, 'rgba(255,159,67,0)');
+        grad.addColorStop(1, 'rgba(255,159,67,0)');
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx(), cy(), R, 0, Math.PI*2);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // nodes
+      pts.forEach((p,i) => {
+        const isCore = i === 7;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, isCore ? 5 : 3.2, 0, Math.PI*2);
+        ctx.fillStyle = isCore ? '#ff9f43' : 'rgba(231,234,238,0.75)';
+        ctx.fill();
+        if(isCore){
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 9, 0, Math.PI*2);
+          ctx.strokeStyle = 'rgba(255,159,67,0.4)';
+          ctx.stroke();
+        }
+      });
+
+      if(!reduceMotion) angle += 0.012;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+</script>
+
+</body>
+</html>
